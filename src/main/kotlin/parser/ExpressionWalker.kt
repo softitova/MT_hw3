@@ -1,13 +1,9 @@
 package parser
 
-//
-//import antlr.generated.ExpressionLexer
-//import antlr.generated.ExpressionParser
-
-
 import antlr.generated.ExpressionLexer
 import antlr.generated.ExpressionParser
-import org.antlr.v4.runtime.*
+import org.antlr.v4.runtime.ANTLRInputStream
+import org.antlr.v4.runtime.CommonTokenStream
 import org.antlr.v4.runtime.tree.ParseTree
 
 /**
@@ -15,7 +11,7 @@ import org.antlr.v4.runtime.tree.ParseTree
  */
 class ExpressionWalker() {
 
-     public fun walk(text: String): ParseTree? {
+    fun walk(text: String): ParseTree? {
         var res: ParseTree? = null
         try {
             res =
@@ -34,8 +30,3 @@ class ExpressionWalker() {
     }
 
 }
-
-/**
- * Created by Titova Sophia on 29.10.17.
- */
-public data class ExprUnit(val node: ParseTree? = null)

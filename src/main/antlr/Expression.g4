@@ -2,17 +2,18 @@ grammar Expression;
 
 prog: expr+ EOF;
 
-expr: lpart Equality rpart Semicolon NEWLINE;
+expr: lVal Equality rVal Semicolon NEWLINE;
 
-rpart : rpart Operation rpart
+rVal :
+    rVal operation rVal
+    | rVal ('+' | '-' ) rVal
     | Variable
     | Number
-    | lbracket rpart rbracket;
+    | LBracket rVal RBracket;
 
+lVal: Variable;
 
-lbracket : LBracket ;
-
-rbracket : RBracket ;
+operation  : HP | LP;
 
 Equality : '=' ;
 
@@ -24,13 +25,14 @@ Semicolon : ';';
 
 NEWLINE : [\r\n]+;
 
-Operation : ('+' | '-' | '/'| '*');
+HP : ('*' | '/' ) ;
+
+LP :  ('+' | '-' );
 
 Number: Digit+;
 
 Digit : [0-9$];
 
-lpart: Variable;
 Variable: Letter LetterOrDigit*;
 
 Letter: [a-zA-Z$_];
