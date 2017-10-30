@@ -5,15 +5,13 @@ prog: expr+ EOF;
 expr: lVal Equality rVal Semicolon NEWLINE;
 
 rVal :
-    rVal operation rVal
+    | rVal ('*' | '/' ) rVal
     | rVal ('+' | '-' ) rVal
     | Variable
     | Number
     | LBracket rVal RBracket;
 
 lVal: Variable;
-
-operation  : HP | LP;
 
 Equality : '=' ;
 
@@ -24,10 +22,6 @@ RBracket : ')';
 Semicolon : ';';
 
 NEWLINE : [\r\n]+;
-
-HP : ('*' | '/' ) ;
-
-LP :  ('+' | '-' );
 
 Number: Digit+;
 
