@@ -5,6 +5,7 @@ prog: expr+ EOF;
 expr: lVal Equality rVal Semicolon NEWLINE;
 
 rVal :
+    unaryOperator
     | rVal ('*' | '/' ) rVal
     | rVal ('+' | '-' ) rVal
     | Variable
@@ -12,6 +13,8 @@ rVal :
     | LBracket rVal RBracket;
 
 lVal: Variable;
+
+unaryOperator : '-' rVal | '+' rVal;
 
 Equality : '=' ;
 
@@ -21,9 +24,10 @@ RBracket : ')';
 
 Semicolon : ';';
 
+
 NEWLINE : [\r\n]+;
 
-Number: Digit+;
+Number:  Digit+;
 
 Digit : [0-9$];
 

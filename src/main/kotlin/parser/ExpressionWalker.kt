@@ -2,7 +2,7 @@ package parser
 
 import antlr.generated.ExpressionLexer
 import antlr.generated.ExpressionParser
-import org.antlr.v4.runtime.ANTLRInputStream
+import org.antlr.v4.runtime.*
 import org.antlr.v4.runtime.CommonTokenStream
 import org.antlr.v4.runtime.tree.ParseTree
 
