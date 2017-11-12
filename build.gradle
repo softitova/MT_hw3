@@ -48,7 +48,7 @@ compileTestKotlin {
 sourceSets {
     main {
         java {
-            srcDirs = ['src/generated/java']
+            srcDirs = ['src/generated/java, src/main/java']
         }
         antlr {
             srcDirs = ['src/main/antlr']
