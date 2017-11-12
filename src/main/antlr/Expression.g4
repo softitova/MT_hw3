@@ -1,26 +1,28 @@
 grammar Expression;
 
-parse locals [HashMap<String, Integer> map = new HashMap<>()]
-    : expr[$map]+ EOF;
-
-expr[HashMap<String, Integer> map]
-    : lVal '=' rVal[$map] ';' NEWLINE
+parse locals [java.util.HashMap<String, Integer> map = new java.util.HashMap<>()]
+    : expr[$map]+ EOF
     {
-        $map.put($lVal.text, $rVal.val);
-        System.out.println($lVal.text + "=" + $rVal.val);
+        for (java.util.Map.Entry<String, Integer> i : $map.entrySet()) {
+            System.out.println(i.getKey() + " = " + i.getValue() + ";");
+        }
     }
+    ;
+
+expr[java.util.HashMap<String, Integer> map]
+    : lVal '=' rVal[$map] ';' NEWLINE                {$map.put($lVal.text, $rVal.val);}
     ;
 
 
 lVal: Variable;
 
-rVal[HashMap<String, Integer> map] returns [int val]
+rVal[java.util.HashMap<String, Integer> map] returns [int val]
 
-    :term[$map] exprP[$term.val, $map]              {$val = $exprP.val;}
+    :term[$map] exprP[$term.val, $map]               {$val = $exprP.val;}
     ;
 
 
-exprP[int i, HashMap<String, Integer> map] returns [int val]
+exprP[int i, java.util.HashMap<String, Integer> map] returns [int val]
 
     : '+' term[$map] termP[$i + $term.val, $map]     { $val = $termP.val; }
     | '-' term[$map] termP[$i - $term.val, $map]     { $val = $termP.val; }
@@ -28,13 +30,13 @@ exprP[int i, HashMap<String, Integer> map] returns [int val]
     ;
 
 
-term[HashMap<String, Integer> map] returns [int val]
+term[java.util.HashMap<String, Integer> map] returns [int val]
 
     : fact[$map] termP[$fact.val, $map]              { $val = $termP.val; }
     ;
 
 
-termP[int i, HashMap<String, Integer> map] returns [int val]
+termP[int i, java.util.HashMap<String, Integer> map] returns [int val]
 
     : '*' fact[$map] exprP[$i * $fact.val, $map]     { $val = $exprP.val; }
     | '/' fact[$map] exprP[$i / $fact.val, $map]     { $val = $exprP.val; }
@@ -42,7 +44,7 @@ termP[int i, HashMap<String, Integer> map] returns [int val]
     ;
 
 
-fact[HashMap<String, Integer> map] returns [int val]
+fact[java.util.HashMap<String, Integer> map] returns [int val]
 
     : unaryOperator[$map]                            { $val = $unaryOperator.val; }
     |'(' rVal[$map] ')'                              { $val = $rVal.val; }
@@ -51,7 +53,7 @@ fact[HashMap<String, Integer> map] returns [int val]
     ;
 
 
-unaryOperator[HashMap<String, Integer> map] returns [int val]
+unaryOperator[java.util.HashMap<String, Integer> map] returns [int val]
 
     : '-' fact[$map]                                { $val = (-1) * $fact.val; }
     | '+' fact[$map]                                { $val = $fact.val; }
