@@ -18,42 +18,42 @@ lVal: Variable;
 
 rVal[java.util.HashMap<String, Integer> map] returns [int val]
 
-    :term[$map] exprP[$term.val, $map]               {$val = $exprP.val;}
+    :term[$map] expr1[$term.val, $map]               {$val = $expr1.val;}
     ;
 
 
-exprP[int i, java.util.HashMap<String, Integer> map] returns [int val]
+expr1[int i, java.util.HashMap<String, Integer> map] returns [int val]
 
-    : '+' term[$map] termP[$i + $term.val, $map]     { $val = $termP.val; }
-    | '-' term[$map] termP[$i - $term.val, $map]     { $val = $termP.val; }
-    | { $val = $i; }
+    : '+' term[$map] expr2[$i + $term.val, $map]     { $val = $expr2.val; }
+    | '-' term[$map] expr2[$i - $term.val, $map]     { $val = $expr2.val; }
+    |                                                { $val = $i; }
     ;
 
 
 term[java.util.HashMap<String, Integer> map] returns [int val]
 
-    : fact[$map] termP[$fact.val, $map]              { $val = $termP.val; }
+    : fact[$map] expr2[$fact.val, $map]              { $val = $expr2.val; }
     ;
 
 
-termP[int i, java.util.HashMap<String, Integer> map] returns [int val]
+expr2[int i, java.util.HashMap<String, Integer> map] returns [int val]
 
-    : '*' fact[$map] exprP[$i * $fact.val, $map]     { $val = $exprP.val; }
-    | '/' fact[$map] exprP[$i / $fact.val, $map]     { $val = $exprP.val; }
+    : '*' fact[$map] expr1[$i * $fact.val, $map]     { $val = $expr1.val; }
+    | '/' fact[$map] expr1[$i / $fact.val, $map]     { $val = $expr1.val; }
     |                                                { $val = $i; }
     ;
 
 
 fact[java.util.HashMap<String, Integer> map] returns [int val]
 
-    : unaryOperator[$map]                            { $val = $unaryOperator.val; }
+    : unaryOp[$map]                                  { $val = $unaryOp.val; }
     |'(' rVal[$map] ')'                              { $val = $rVal.val; }
     | Variable                                       { $val = $map.get($Variable.text); }
     | Number                                         { $val = Integer.parseInt($Number.text); }
     ;
 
 
-unaryOperator[java.util.HashMap<String, Integer> map] returns [int val]
+unaryOp[java.util.HashMap<String, Integer> map] returns [int val]
 
     : '-' fact[$map]                                { $val = (-1) * $fact.val; }
     | '+' fact[$map]                                { $val = $fact.val; }
